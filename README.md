@@ -1,11 +1,13 @@
 UpyunFile
 =========
 
- 又拍云文件管理插件Typecho版
+ Typecho 又拍云文件管理插件修复版
 
 #### 插件简介：
 
- 本插件基于 [codesee/UpyunFile](https://github.com/codesee/UpyunFile) 二次开发，解决了原作的一些 bug，并加入了新功能。
+ 本插件基于 [ShadowySpirits/UpyunFile](https://github.com/ShadowySpirits/UpyunFile) 修改
+
+ 由于原仓库已经存档，所以另开一个 Fork
    
 #### 插件功能：
 
@@ -48,6 +50,10 @@ UpyunFile
 **2019-4-13：** 
 
 - 解决兼容性问题
+
+**2023-12-3：** 
+
+- 修复上传文件失败，控制台提示 `fclose(): supplied resource is not a valid stream resource` 的问题
   
 #### 鸣谢：
  原作者：[codesee](https://github.com/codesee)

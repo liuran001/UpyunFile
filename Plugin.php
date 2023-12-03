@@ -1,14 +1,18 @@
 <?php
 /**
- * 又拍云（UpYun）文件管理 Modified by <a href="https://blog.sspirits.top">SSpirits</a>
+ * 又拍云（UpYun）文件管理修复版
  *
  * @package UpyunFile
- * @author codesee
- * @version 1.0.4
- * @link https://blog.sspirits.top
+ * @author 笨蛋ovo
+ * @version 1.0.5
+ * @link https://blog.bdovo.cc
  * @dependence 1.0-*
- * @date 2019-5-10
+ * @date 2023-12-3
  */
+
+// 原版 https://github.com/codesee/UpyunFile
+// 二改 https://github.com/ShadowySpirits/UpyunFile
+// 三改 https://github.com/liuran001/UpyunFile
 
 use Upyun\Config;
 use Upyun\Upyun;
@@ -16,7 +20,7 @@ use Upyun\Upyun;
 class UpyunFile_Plugin implements Typecho_Plugin_Interface {
 
     //上传文件目录
-    const UPLOAD_DIR = '/typecho/uploads';
+    const UPLOAD_DIR = '/typecho/usr/uploads';
     const IMG_EXT = ['JPG', 'JPEG', 'PNG', 'BMP'];
 
     /**
@@ -175,7 +179,10 @@ class UpyunFile_Plugin implements Typecho_Plugin_Interface {
         } else {
             $upyun->write($path, $fh, array('x-gmkerl-thumb' => $settings->thumbId));
         }
-        @fclose($fh);
+        //检查文件句柄是否是有效的资源
+        if (is_resource($fh)) {
+            fclose($fh);
+        }
 
         if (!isset($file['size'])) {
             $fileInfo = $upyun->info($path);
@@ -239,7 +246,10 @@ class UpyunFile_Plugin implements Typecho_Plugin_Interface {
         } else {
             $upyun->write($path, $fh, array('x-gmkerl-thumb' => $settings->thumbId));
         }
-        @fclose($fh);
+        //检查文件句柄是否是有效的资源
+        if (is_resource($fh)) {
+            fclose($fh);
+        }
 
         if (!isset($file['size'])) {
             $fileInfo = $upyun->info($path);
@@ -309,9 +319,9 @@ class UpyunFile_Plugin implements Typecho_Plugin_Interface {
      * @return boolean
      */
     public static function validate() {
-        $host = Typecho_Request::getInstance()->upyunhost;
-        $user = Typecho_Request::getInstance()->upyunuser;
-        $pwd = Typecho_Request::getInstance()->upyunpwd;
+        $host = Typecho_Request::getInstance()->get("upyunhost");
+        $user = Typecho_Request::getInstance()->get("upyunuser");
+        $pwd = Typecho_Request::getInstance()->get("upyunpwd");
 
         try {
             require_once 'Upyun/vendor/autoload.php';
